@@ -10,13 +10,18 @@
         <%}%>
 
         <% dbData.forEach( row => { %>
+            
             <tr>
                 <% row.forEach( value => { %>
                     <td>
                         <%= value; %>
                     </td>
-
+            
                <% }) %>
+                
+                <td>
+                    <button>Delete</button>
+                </td>
             </tr>
         <% }) %>
     </table>

@@ -1,8 +1,17 @@
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+}
 #header-div{
     background-color: lightgray;
     padding: 10px;
 }
 
+#mainDiv{
+    min-height: 90vh;
+   
+}
 #indexFile-form{
     text-align: center;
 
@@ -25,4 +34,11 @@
     border: 1px solid black;
     padding: 5px 15px;
     text-align: center;
+}
+
+#footer-div{
+    background-color: lightgray;
+}
+ #footer-div p {
+    padding: 10px ;
 }
