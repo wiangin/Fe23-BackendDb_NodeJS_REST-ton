@@ -6,7 +6,7 @@ const pool = mysql.createPool({
     port: '3308',
     user: 'root',
     password: '',
-    database: 'skoldatabas',
+    database: 'GritAcademy',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,

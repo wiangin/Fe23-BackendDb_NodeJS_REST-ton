@@ -1,0 +1,14 @@
+<%- include ("partials/head") %>
+
+<body>
+    <%- include ("partials/header") %>
+    <h1> Student Table</h1>
+    <form id="indexFile-form" action="/studentTable" method="POST">
+        <label>Table name:</label>
+        <input type="text" name="userInput">
+        <button type="submit">Enter</button>
+    </form>
+
+    <%- include('partials/dataTables') %>
+
+</body>

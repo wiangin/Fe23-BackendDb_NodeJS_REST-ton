@@ -1,0 +1,28 @@
+#header-div{
+    background-color: lightgray;
+    padding: 10px;
+}
+
+#indexFile-form{
+    text-align: center;
+
+    margin-top: 15px;
+}
+
+#table-style{
+    margin-top: 20px;
+    margin: 20px auto;
+}
+
+#table-style th{
+    margin-top: 20px;
+    border: 1px solid black;
+    padding: 5px 100px;
+}
+
+#table-style td{
+    margin-top: 20px;
+    border: 1px solid black;
+    padding: 5px 15px;
+    text-align: center;
+}
