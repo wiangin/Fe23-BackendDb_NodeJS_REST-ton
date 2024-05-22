@@ -8,110 +8,187 @@ const clientRouter = Router();
 /////// END POINT */*\\\\\\
 /////// END POINT */*\\\\\\
 clientRouter.get('/', async (req, res) => {
-    const pageTitle =   "Grit Academy API";
+    const pageTitle = "Database tables";
     const sql = 'SHOW TABLES';
     const [dbData] = await db.query(sql);
     console.log(dbData);
     res.render('index',{dbData, pageTitle});
 });
 
+let currentTable;
 
-/////// END POINT *studentTable*\\\\\\
-/////// END POINT *studentTable*\\\\\\
-/////// END POINT *studentTable*\\\\\\
-clientRouter.get('/studentTable', async (req,res) => {
-    const pageTitle =   "Grit Academy API";
-    const sql = 'SELECT * FROM students';
+clientRouter.post('/', async (req, res) => {
+    const tableName = req.body;
+
+    currentTable = tableName.userInput;
+
+    const pageTitle = `Table name = ${tableName.userInput}`; 
+
+    const sql = `Select * FROM ${tableName.userInput} `;
+    
     const [dbData] = await db.query(sql);
-    console.log(dbData);
 
-    const sql2 = 'DESCRIBE students';
+    const sql2 = `DESCRIBE ${tableName.userInput}`;
     const [dbDataHeaders] = await db.query(sql2);
-    res.render('studentTable',{dbData, pageTitle, dbDataHeaders});
-});
 
-clientRouter.post('/studentTable', async (req,res) => {
-    const pageTitle = "Grit Academy API";
-    const userInput = req.body;
-    console.log(userInput);
-
-    const insertQuery = `INSERT INTO students (fName, lName, town) VALUES ("${userInput.fName}","${userInput.lName}","${userInput.town}")`;
-    const addData = await db.query(insertQuery);
-
-    const sql = 'SELECT * FROM students';
-    const [dbData] = await db.query(sql);
-    console.log(dbData);
-
-    const sql2 = 'DESCRIBE students';
-    const [dbDataHeaders] = await db.query(sql2);
-    res.render('studentTable', {dbData, pageTitle, dbDataHeaders});
-});
-
-/////// END POINT *courseTable*\\\\\\
-/////// END POINT *courseTable*\\\\\\
-/////// END POINT *courseTable*\\\\\\
-clientRouter.get('/courseTable', async (req, res) => {
-    const pageTitle = "Grit Academy API";
-    const sql = 'SELECT * FROM courses';
-    const [dbData] = await db.query(sql);
-    console.log(dbData);
-
-    const sql2 = 'DESCRIBE courses';
-    const [dbDataHeaders] = await db.query(sql2);
-    console.log(dbDataHeaders);
-    res.render('courseTable',{dbData, pageTitle, dbDataHeaders});
+    res.render('index', {pageTitle, dbData, dbDataHeaders});
+    
 })
 
-clientRouter.post('/courseTable', async (req,res) => {
-    const pageTitle = "Grit Academy API";
-    const userInput = req.body;
-    console.log(userInput);
 
-    const insertQuery = `INSERT INTO courses (name, description) VALUES ("${userInput.name}","${userInput.description}")`;
-    const addData = await db.query(insertQuery);
+//////// Reuest med endpoint * addData * \\\\\\\\\\
+//////// Reuest med endpoint * addData * \\\\\\\\\\
+//////// Reuest med endpoint * addData * \\\\\\\\\\
+clientRouter.get('/addData', async (req, res) => {
+  
+    const pageTitle = "Add Data";
 
-    const sql = 'SELECT * FROM Courses';
+    if(currentTable === undefined){
+        res.status(400).send('Please choose table');
+        return;
+    }
+    const sql = `SELECT * FROM ${currentTable}`;
     const [dbData] = await db.query(sql);
-    console.log(dbData);
-
-    const sql2 = 'DESCRIBE courses';
+    // console.log(dbData);
+  
+    const sql2 = `DESCRIBE ${currentTable}`;
     const [dbDataHeaders] = await db.query(sql2);
-    res.render('courseTable', {dbData, pageTitle, dbDataHeaders});
-});
+  
+    res.render('addData', {pageTitle, dbData, dbDataHeaders, currentTable});
+  });
 
-/////// END POINT *studentsAndCourses*\\\\\\
-/////// END POINT *studentsAndCourses*\\\\\\
-/////// END POINT *studentsAndCourses*\\\\\\
+  clientRouter.post('/addData', async (req, res) => {
 
-clientRouter.get('/studentsAndCourses', async (req, res) => {
-    const pageTitle = "Grit Academy API";
-    const sql = 'SELECT * FROM students_courses';
+    const pageTitle = `Table name = ${currentTable}`; 
+
+    const tableName = req.body; // with Post need request from body
+    console.log(tableName);
+  
+    const objValues = Object.values(tableName);
+    console.log(objValues);
+  
+    for(const data of objValues){
+      console.log(data);
+    }
+  
+    // Query to Mysql \\
+    const stringColumn = ["fName", "lName","town", "name","description"];
+    const columnNameArr = [];
+    const arr = [];
+
+    for(const key in tableName){
+      columnNameArr.push(key);
+      if(stringColumn.includes(key)){
+          arr.push(`"${tableName[key]}"`);
+      }
+      else{
+        arr.push(tableName[key]);
+      }
+    };
+  
+    const columnNames = columnNameArr.join(",") //Put comma between values
+    console.log(columnNames);
+   
+      const insertQuery = `INSERT INTO ${currentTable}(${columnNames}) VALUES (${arr.join(",")})`;
+      console.log(insertQuery);
+      const addDbData = await db.query(insertQuery);
+  
+    const sql = `SELECT * FROM ${currentTable}`;
     const [dbData] = await db.query(sql);
-    console.log(dbData);
-
-    const sql2 = 'DESCRIBE students_courses';
+    
+    const sql2 = `DESCRIBE ${currentTable}`;
     const [dbDataHeaders] = await db.query(sql2);
-    console.log(dbDataHeaders);
-    res.render('studentsAndCourses',{dbData, pageTitle, dbDataHeaders});
-});
+    // console.log(dbDataHeaders);
+  
+    res.render('addData', {pageTitle, dbData, dbDataHeaders, currentTable});
+  });
 
-clientRouter.post('/studentsAndCourses', async (req,res) => {
-    const pageTitle = "Grit Academy API";
-    const userInput = req.body;
-    console.log(userInput);
+  //////// Reuest med endpoint * Update Data * \\\\\\\\\\
+  //////// Reuest med endpoint * Update Data * \\\\\\\\\\
+  //////// Reuest med endpoint * Update Data * \\\\\\\\\\
+  clientRouter.get('/updateData', async (req, res) => {
+  
+    const pageTitle = "Update Data";
 
-    const insertQuery = `INSERT INTO students_courses (students_id, courses_id) VALUES (${userInput.students_id}, ${userInput.courses_id})`;
-    const addData = await db.query(insertQuery);
-
-    const sql = 'SELECT * FROM students_courses';
+    if(currentTable === undefined){
+        res.status(400).send('Please choose table');
+        return;
+    }
+    
+    const sql = `SELECT * FROM ${currentTable}`;
     const [dbData] = await db.query(sql);
-    console.log(dbData);
-
-    const sql2 = 'DESCRIBE students_courses';
+    // console.log(dbData);
+  
+    const sql2 = `DESCRIBE ${currentTable}`;
     const [dbDataHeaders] = await db.query(sql2);
-    res.render('studentsAndCourses', {dbData, pageTitle, dbDataHeaders});
-});
+  
+    res.render('updateData', {pageTitle, dbData, dbDataHeaders, currentTable});
+  });
 
+  clientRouter.post('/updateData', async (req, res) => {
+    const pageTitle = "Update Data";
+    const request = req.body;
+
+    if(request.column_name === 'id'){
+
+        res.status(400).send('Caonnot use Id to update');
+        return;
+    }
+    else{
+        const updateQuery = `UPDATE ${currentTable} SET ${request.column_name} = "${request.new_value}" WHERE id = ${request.id}`;
+        const updateData = await db.query(updateQuery);
+    }
+
+    const sql = `SELECT * FROM ${currentTable}`;
+    const [dbData] = await db.query(sql);
+    // console.log(dbData);
+  
+    const sql2 = `DESCRIBE ${currentTable}`;
+    const [dbDataHeaders] = await db.query(sql2);
+  
+    res.render('updateData', {pageTitle, dbData, dbDataHeaders, currentTable});
+  });
+
+//////// Reuest med endpoint * removeData * \\\\\\\\\\
+//////// Reuest med endpoint * removeData * \\\\\\\\\\
+//////// Reuest med endpoint * removeData * \\\\\\\\\\
+
+clientRouter.get('/removeData', async (req, res) => {
+    //res.send("hello World");//serves index.html
+    const pageTitle = "Remove Data";
+
+    if(currentTable === undefined){
+        res.status(400).send('Please choose table');
+        return;
+    }
+
+    const sql = `SELECT * FROM ${currentTable}`;
+    const [dbData] = await db.query(sql);
+    // console.log(dbData);
+  
+    const sql2 = `DESCRIBE ${currentTable}`;
+    const [dbDataHeaders] = await db.query(sql2);
+  
+    res.render('removeData', {pageTitle, dbData, dbDataHeaders, currentTable});
+  });
+   
+  clientRouter.post('/removeData', async (req, res) => {
+    // console.log(req.body);
+    const pageTitle = "Remove Data";
+    const tableName = req.body;
+  
+    const sqlDeleteQuery = `DELETE FROM ${currentTable} WHERE id = ${tableName.id}`;
+    const deleteQuery = await db.query(sqlDeleteQuery);
+    // console.log(deleteQuery);
+  
+    const sql = `SELECT * FROM ${currentTable}`;
+    const [dbData] = await db.query(sql);
+  
+    const sql2 = `DESCRIBE ${currentTable}`;
+    const [dbDataHeaders] = await db.query(sql2);
+  
+    res.render("removeData", {pageTitle, dbData, dbDataHeaders, currentTable});
+  });
 
 
 export default clientRouter;

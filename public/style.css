@@ -14,10 +14,13 @@ body{
 }
 #indexFile-form{
     text-align: center;
-
     margin-top: 15px;
 }
 
+#delete-form{
+    margin-top: 15px;
+    margin-left: 123px;
+}
 #table-style{
     margin-top: 20px;
     margin: 20px auto;
