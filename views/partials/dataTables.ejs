@@ -4,7 +4,7 @@
         <% if(typeof dbDataHeaders != 'undefined'){ %>
             <% dbDataHeaders.forEach ( header => { %>
 
-                <th> <%= header[0]; %> </th>
+                <th id="table-head"> <%= header[0]; %> </th>
             <%}) %>
          
         <%}%>
@@ -19,6 +19,12 @@
                     </td>
             
                <% }) %>
+               <td>
+                <button id="delete-button" data-rowId="<%= row[0] %>">Delete</button>
+                <script>
+                    document.addEventListener('')
+                </script>
+               </td>
             </tr>
         <% }) %>
     </table>

@@ -8,7 +8,7 @@ const clientRouter = Router();
 /////// END POINT */*\\\\\\
 /////// END POINT */*\\\\\\
 clientRouter.get('/', async (req, res) => {
-    const pageTitle = "Database tables";
+    const pageTitle = "Database Tables";
     const sql = 'SHOW TABLES';
     const [dbData] = await db.query(sql);
     console.log(dbData);

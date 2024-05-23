@@ -10,7 +10,20 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
-    // rowsAsArray: true
+    rowsAsArray: true
   });
 
+  export const pool2 = mysql.createPool({
+    host: 'localhost',
+    port: '3308',
+    user: 'root',
+    password: '',
+    database: 'GritAcademy',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+  });
+
+
   export default pool;
+ 

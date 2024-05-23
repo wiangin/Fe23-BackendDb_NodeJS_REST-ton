@@ -1,4 +1,5 @@
 body{
+
     display: flex;
     flex-direction: column;
     justify-content:space-between;
@@ -8,10 +9,38 @@ body{
     padding: 10px;
 }
 
+#header-div{
+    display: flex;
+    justify-content: space-between;
+}
+
+#nav-container{
+  margin: auto 30px auto 0;
+}
+
+a{
+   color: black;
+   text-decoration: none;
+   padding: 5px;
+}
+span{
+    margin-left: 5px;
+}
+
+a:hover{
+    font-style: italic;
+    color: rgb(238, 158, 40);
+    font-size: larger;
+}
+
 #mainDiv{
     min-height: 90vh;
-   
 }
+#pageTitle{
+    text-align: center;
+    margin-top: 50px;
+}
+
 #indexFile-form{
     text-align: center;
     margin-top: 15px;
@@ -30,13 +59,15 @@ body{
     margin-top: 20px;
     border: 1px solid black;
     padding: 5px 100px;
+    background-color: lightgray;
 }
 
 #table-style td{
     margin-top: 20px;
     border: 1px solid black;
     padding: 5px 15px;
-    text-align: center;
+    text-align: left;
+    background-color: rgb(242, 197, 139);
 }
 
 #footer-div{

@@ -5,9 +5,9 @@
         <div id="mainDiv">
             <%- include ("partials/header") %>
             <!-- <h1>HOME PAGE</h1> -->
-            <h1> <%= pageTitle; %> </h1>
-            <form id="form" action="/" method="POST">
-                Table name: <input type="text" name="userInput" required>
+            <h1 id="pageTitle"> <%= pageTitle; %> </h1>
+            <form id="indexFile-form" action="/" method="POST">
+               <input type="text" name="userInput" required placeholder="Insert the table's name">
                 <button type="submit">Get Table</button>
             </form>
     
