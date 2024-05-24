@@ -19,11 +19,13 @@
                     </td>
             
                <% }) %>
-               <td>
+               <!-- <td>
                 <button id="delete-button" data-rowId="<%= row[0] %>">Delete</button>
                 <script>
-                    document.addEventListener('')
-                </script>
+                    document.getElementById('delete-button').addEventListener('click', () => {
+                        console.log('Hej');
+                    })
+                </script> -->
                </td>
             </tr>
         <% }) %>

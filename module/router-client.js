@@ -11,13 +11,38 @@ clientRouter.get('/', async (req, res) => {
     const pageTitle = "Database Tables";
     const sql = 'SHOW TABLES';
     const [dbData] = await db.query(sql);
-    console.log(dbData);
+    // console.log(dbData);
     res.render('index',{dbData, pageTitle});
 });
 
 let currentTable;
 
 clientRouter.post('/', async (req, res) => {
+  // try{
+  //   log
+  //   const {userInput} = req.body;
+  //   console.log(userInput);
+  //   if(!userInput || typeof userInput !== 'string'){
+  //     return res.status(400).send('Invalid Table Name');
+  //   }
+
+  //   const tableName = userInput.trim();
+  //   const pageTitle = `Table name = ${tableName}`;
+  //   // console.log(tableName);
+
+  //   const sql = `SELECT * FROM ??`;
+  //   const [dbData] = await db.query(sql, [userInput]);
+
+  //   const sql2 = `DESCRIBE ??`;
+  //   const [dbDataHeaders] = await db.query(sql2, [userInput]);
+
+  //   res.render('index', {dbData, pageTitle, dbDataHeaders});
+  // }
+  // catch(error){
+  //   res.status(500).send('No Table Match, Please try again');
+  // }
+
+
     const tableName = req.body;
 
     currentTable = tableName.userInput;
@@ -33,7 +58,7 @@ clientRouter.post('/', async (req, res) => {
 
     res.render('index', {pageTitle, dbData, dbDataHeaders});
     
-})
+});
 
 
 //////// Reuest med endpoint * addData * \\\\\\\\\\
@@ -61,7 +86,7 @@ clientRouter.get('/addData', async (req, res) => {
 
     const pageTitle = `Table name = ${currentTable}`; 
 
-    const tableName = req.body; // with Post need request from body
+    const tableName = req.body;
     console.log(tableName);
   
     const objValues = Object.values(tableName);
@@ -190,5 +215,5 @@ clientRouter.get('/removeData', async (req, res) => {
     res.render("removeData", {pageTitle, dbData, dbDataHeaders, currentTable});
   });
 
-
+  
 export default clientRouter;

@@ -3,17 +3,17 @@
 <body>
     <div id="mainDiv">
         <%- include('partials/header') %>
-        <h1> <%= pageTitle; %> </h1>
+        <h1 id="pageTitle"> <%= pageTitle; %> </h1>
     
-        <form action="/upDateData" method="POST">
+        <form id="update-form" action="/upDateData" method="POST">
             <label>Column name:</label>
-            <input type="text" name="column_name" placeholder="">
+            <input type="text" name="column_name">
 
             <label>New value: </label>
             <input type="text" name="new_value">
 
-            <label> Where </label>
-            <input type="number" name="id" placeholder="Insert id">
+            <label> Id: </label>
+            <input type="number" name="id" >
 
             <button type="submit"> Update</button>
         </form>
