@@ -12,6 +12,7 @@ clientRouter.get('/', async (req, res) => {
     const sql = 'SHOW TABLES';
     const [dbData] = await db.query(sql);
 
+
     res.render('index',{dbData, pageTitle});
 });
 
