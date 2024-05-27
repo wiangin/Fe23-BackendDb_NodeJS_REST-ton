@@ -11,37 +11,13 @@ clientRouter.get('/', async (req, res) => {
     const pageTitle = "Database Tables";
     const sql = 'SHOW TABLES';
     const [dbData] = await db.query(sql);
-    // console.log(dbData);
+
     res.render('index',{dbData, pageTitle});
 });
 
 let currentTable;
 
 clientRouter.post('/', async (req, res) => {
-  // try{
-  //   log
-  //   const {userInput} = req.body;
-  //   console.log(userInput);
-  //   if(!userInput || typeof userInput !== 'string'){
-  //     return res.status(400).send('Invalid Table Name');
-  //   }
-
-  //   const tableName = userInput.trim();
-  //   const pageTitle = `Table name = ${tableName}`;
-  //   // console.log(tableName);
-
-  //   const sql = `SELECT * FROM ??`;
-  //   const [dbData] = await db.query(sql, [userInput]);
-
-  //   const sql2 = `DESCRIBE ??`;
-  //   const [dbDataHeaders] = await db.query(sql2, [userInput]);
-
-  //   res.render('index', {dbData, pageTitle, dbDataHeaders});
-  // }
-  // catch(error){
-  //   res.status(500).send('No Table Match, Please try again');
-  // }
-
 
     const tableName = req.body;
 
@@ -74,7 +50,6 @@ clientRouter.get('/addData', async (req, res) => {
     }
     const sql = `SELECT * FROM ${currentTable}`;
     const [dbData] = await db.query(sql);
-    // console.log(dbData);
   
     const sql2 = `DESCRIBE ${currentTable}`;
     const [dbDataHeaders] = await db.query(sql2);
@@ -86,44 +61,37 @@ clientRouter.get('/addData', async (req, res) => {
 
     const pageTitle = `Table name = ${currentTable}`; 
 
-    const tableName = req.body;
-    console.log(tableName);
-  
-    const objValues = Object.values(tableName);
-    console.log(objValues);
-  
-    for(const data of objValues){
-      console.log(data);
-    }
-  
+    const request = req.body;
+    
     // Query to Mysql \\
     const stringColumn = ["fName", "lName","town", "name","description"];
     const columnNameArr = [];
-    const arr = [];
+    const valuesArr = [];
 
-    for(const key in tableName){
+    for(const key in request){
       columnNameArr.push(key);
+
       if(stringColumn.includes(key)){
-          arr.push(`"${tableName[key]}"`);
+        valuesArr.push(`"${request[key]}"`);
       }
       else{
-        arr.push(tableName[key]);
+        valuesArr.push(request[key]);
       }
     };
+
+    console.log(columnNameArr);
+    console.log(valuesArr);
   
-    const columnNames = columnNameArr.join(",") //Put comma between values
-    console.log(columnNames);
+    const columnNames = columnNameArr.join(",");
    
-      const insertQuery = `INSERT INTO ${currentTable}(${columnNames}) VALUES (${arr.join(",")})`;
-      console.log(insertQuery);
-      const addDbData = await db.query(insertQuery);
+    const insertQuery = `INSERT INTO ${currentTable}(${columnNames}) VALUES (${valuesArr.join(",")})`;
+    const addDbData = await db.query(insertQuery);
   
     const sql = `SELECT * FROM ${currentTable}`;
     const [dbData] = await db.query(sql);
     
     const sql2 = `DESCRIBE ${currentTable}`;
     const [dbDataHeaders] = await db.query(sql2);
-    // console.log(dbDataHeaders);
   
     res.render('addData', {pageTitle, dbData, dbDataHeaders, currentTable});
   });
@@ -142,7 +110,6 @@ clientRouter.get('/addData', async (req, res) => {
     
     const sql = `SELECT * FROM ${currentTable}`;
     const [dbData] = await db.query(sql);
-    // console.log(dbData);
   
     const sql2 = `DESCRIBE ${currentTable}`;
     const [dbDataHeaders] = await db.query(sql2);
@@ -166,7 +133,6 @@ clientRouter.get('/addData', async (req, res) => {
 
     const sql = `SELECT * FROM ${currentTable}`;
     const [dbData] = await db.query(sql);
-    // console.log(dbData);
   
     const sql2 = `DESCRIBE ${currentTable}`;
     const [dbDataHeaders] = await db.query(sql2);
@@ -189,7 +155,6 @@ clientRouter.get('/removeData', async (req, res) => {
 
     const sql = `SELECT * FROM ${currentTable}`;
     const [dbData] = await db.query(sql);
-    // console.log(dbData);
   
     const sql2 = `DESCRIBE ${currentTable}`;
     const [dbDataHeaders] = await db.query(sql2);
@@ -198,14 +163,13 @@ clientRouter.get('/removeData', async (req, res) => {
   });
    
   clientRouter.post('/removeData', async (req, res) => {
-    // console.log(req.body);
+    
     const pageTitle = "Remove Data";
     const tableName = req.body;
   
     const sqlDeleteQuery = `DELETE FROM ${currentTable} WHERE id = ${tableName.id}`;
     const deleteQuery = await db.query(sqlDeleteQuery);
-    // console.log(deleteQuery);
-  
+   
     const sql = `SELECT * FROM ${currentTable}`;
     const [dbData] = await db.query(sql);
   
