@@ -17,7 +17,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', apiRouter);
 app.use('/', clientRouter);
 
-// app.use(bodyParser.json());
 
 //server configuration
 const port = 3000;
