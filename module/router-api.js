@@ -95,7 +95,7 @@ apiRouter.get('/courses/match/description/:match', async (req, res) => {
 
 apiRouter.get('/courses/id/:id', async (req, res) => {
     console.log(req.params.id);
-    const sql = `SELECT  courses.id, courses.name, students.fName, students.lName FROM courses LEFT JOIN students_courses ON courses.id = students_courses.courses_id LEFT JOIN students ON students.id = students_courses.students_id WHERE courses.id = ${req.params.id}`;
+    const sql = `SELECT  courses.id, courses.name, courses.description, students.fName, students.lName FROM courses LEFT JOIN students_courses ON courses.id = students_courses.courses_id LEFT JOIN students ON students.id = students_courses.students_id WHERE courses.id = ${req.params.id}`;
 
     const [dbData] = await db.query(sql);
     res.json(dbData);
